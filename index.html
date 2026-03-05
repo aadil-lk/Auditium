@@ -1,911 +1,911 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Auditium | AI Website Governance Platform</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<style>
-
-/* ================= GLOBAL ================= */
-
-/* ================= REPORT TOGGLE ================= */
-.chart-box{
-transition:all 0.25s ease;
-}
-
-.chart-box:hover{
-transform:translateY(-4px);
-box-shadow:
-0 20px 40px rgba(0,0,0,0.12),
-0 8px 18px rgba(0,0,0,0.08);
-}
-
-.chart-box{
-transition:0.3s;
-}
-
-.chart-box:hover{
-transform:translateY(-4px);
-box-shadow:0 15px 35px rgba(0,0,0,0.18);
-}
-.chart-title{
-font-size:18px;
-font-weight:700;
-margin-bottom:18px;
-color:#0f172a;
-letter-spacing:0.2px;
-}
-.chart-box canvas{
-width:100% !important;
-height:320px !important;
-margin-top:5px;
-}
-.download-btn{
-margin-top:10px;
-margin-bottom:20px;
-padding:10px 16px;
-background:linear-gradient(90deg,#2563eb,#38bdf8);
-border:none;
-border-radius:8px;
-color:white;
-font-weight:600;
-cursor:pointer;
-}
-
-.download-btn:hover{
-opacity:0.9;
-}
-
-.scan-status{
-margin-top:20px;
-padding:20px;
-background:#020617;
-border:1px solid #334155;
-border-radius:10px;
-text-align:center;
-}
-
-.scan-text{
-margin-bottom:10px;
-color:#38bdf8;
-font-weight:600;
-}
-
-.scan-bar{
-width:100%;
-height:8px;
-background:#111827;
-border-radius:10px;
-overflow:hidden;
-}
-
-#scanProgress{
-width:0%;
-height:100%;
-background:linear-gradient(90deg,#2563eb,#38bdf8);
-transition:width 0.6s;
-}
-
-
-.summary-box{
-margin-top:20px;
-padding:20px;
-background:#111827;
-border:1px solid #334155;
-border-radius:10px;
-}
-
-.findings-box{
-margin-top:15px;
-padding:20px;
-background:#020617;
-border:1px solid #334155;
-border-radius:10px;
-}
-
-
-.report-toggle{
-margin-top:15px;
-padding:10px 16px;
-display:inline-block;
-background:#111827;
-border:1px solid #334155;
-border-radius:8px;
-cursor:pointer;
-transition:0.25s;
-}
-
-
-.report-toggle:hover{
-background:#1e293b;
-}
-
-#fullReport{
-margin-top:20px;
-line-height:1.7;
-}
-
-.collapsed{
-display:none;
-}
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Inter',sans-serif;
-}
-
-body{
-background:#0f172a;
-color:#e2e8f0;
-line-height:1.6;
-}
-
-.container{
-width:90%;
-max-width:1200px;
-margin:auto;
-}
-
-section{
-padding:90px 0;
-}
-
-h1,h2,h3{
-margin-bottom:20px;
-}
-
-p{
-color:#ffffff;
-}
-
-/* ================= NAVBAR ================= */
-
-nav{
-position:sticky;
-top:0;
-z-index:1000;
-
-display:flex;
-justify-content:space-between;
-align-items:center;
-
-padding:20px 0;
-
-background:rgba(15,23,42,0.75);
-backdrop-filter:blur(10px);
-
-border-bottom:1px solid #1e293b;
-}
-
-.logo{
-font-weight:700;
-font-size:30px;
-color:#38bdf8;
-letter-spacing:0.5px;
-}
-
-nav ul{
-display:flex;
-gap:28px;
-}
-
-nav ul li{
-list-style:none;
-}
-
-nav ul li a{
-color:#ffffff;
-text-decoration:none;
-font-weight:500;
-position:relative;
-transition:color 0.25s ease;
-}
-
-nav ul li a:hover{
-color:#38bdf8;
-}
-
-nav ul li a:visited{
-color:#ffffff;
-}
-
-nav ul li a:visited:hover{
-color:#38bdf8;
-}
-
-nav ul li a::after{
-content:"";
-position:absolute;
-left:0;
-bottom:-6px;
-width:0%;
-height:2px;
-background:#38bdf8;
-transition:width 0.3s ease;
-}
-
-nav ul li a:hover::after{
-width:100%;
-}
-
-/* ================= HERO ================= */
-
-.hero{
-text-align:center;
-padding-top:60px;
-position:relative;
-overflow:hidden;
-}
-
-/* PARTICLE CANVAS */
-
-#particles{
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-z-index:0;
-opacity:0.4;
-}
-
-/* GLOW BACKGROUND */
-
-.hero-glow{
-position:absolute;
-top:-200px;
-left:50%;
-transform:translateX(-50%);
-width:1000px;
-height:700px;
-
-background:radial-gradient(circle at center,
-rgba(56,189,248,0.45),
-rgba(37,99,235,0.35),
-transparent 70%);
-
-filter:blur(140px);
-
-animation:heroGlowMove 12s ease-in-out infinite alternate;
-
-z-index:0;
-}
-
-@keyframes heroGlowMove{
-
-0%{
-transform:translateX(-50%) translateY(0px) scale(1);
-}
-
-50%{
-transform:translateX(-50%) translateY(40px) scale(1.05);
-}
-
-100%{
-transform:translateX(-50%) translateY(-40px) scale(1.1);
-}
-
-}
-
-/* HERO TEXT */
-
-.hero h1{
-font-size:48px;
-font-weight:700;
-
-background:linear-gradient(90deg,#ffffff,#38bdf8,#2563eb);
--webkit-background-clip:text;
-background-clip:text;
--webkit-text-fill-color:transparent;
-
-position:relative;
-z-index:2;
-}
-
-.hero p{
-max-width:650px;
-margin:auto;
-margin-bottom:30px;
-position:relative;
-z-index:2;
-}
-
-.btn{
-background:linear-gradient(90deg,#2563eb,#38bdf8);
-padding:14px 28px;
-border-radius:8px;
-color:white;
-font-weight:600;
-display:inline-block;
-position:relative;
-z-index:2;
-}
-
-.btn:hover{
-opacity:0.9;
-}
-
-/* ================= FEATURES ================= */
-
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:25px;
-margin-top:40px;
-}
-
-.card{
-background:#1e293b;
-padding:25px;
-border-radius:14px;
-border:1px solid #334155;
-transition:0.3s;
-}
-
-.card:hover{
-transform:translateY(-6px);
-}
-
-.card h3{
-color:#38bdf8;
-margin-bottom:10px;
-}
-
-/* ================= AUDIT SECTION ================= */
-
-.audit-section{
-background:#020617;
-padding:100px 0;
-}
-
-.audit-box{
-background:#1e293b;
-padding:40px;
-border-radius:14px;
-border:1px solid #334155;
-margin-top:40px;
-}
-
-.form-section{
-display:flex;
-flex-wrap:wrap;
-gap:15px;
-justify-content:center;
-margin-bottom:30px;
-}
-
-.form-section input{
-padding:14px;
-width:260px;
-border-radius:8px;
-border:1px solid #334155;
-background:#0f172a;
-color:white;
-}
-
-.form-section input::placeholder{
-color:#64748b;
-}
-
-button{
-padding:14px 28px;
-border:none;
-border-radius:8px;
-background:linear-gradient(90deg,#487ff7,#38bdf8);
-color:white;
-font-weight:600;
-cursor:pointer;
-}
-
-button:hover{
-opacity:0.9;
-}
-
-/* ================= MODULES ================= */
-
-.modules{
-display:flex;
-flex-wrap:wrap;
-gap:16px;
-justify-content:center;
-margin-bottom:40px;
-margin-top:20px;
-}
-.modules input{
-display:none;
-}
-
-.pill{
-padding:12px 22px;
-border-radius:10px;
-
-background:#ffffff;
-color:#111827;
-
-font-weight:700;
-
-border:1px solid #fdfdff;
-
-cursor:pointer;
-transition:all 0.25s ease;
-
-box-shadow:0 4px 10px rgba(0,0,0,0.08);
-}
-
-.pill:hover{
-transform:translateY(-2px);
-box-shadow:0 10px 20px rgba(0,0,0,0.15);
-}
-
-.modules input:checked + .pill{
-background:#2563eb;
-color:white;
-border-color:#2563eb;
-
-box-shadow:0 6px 14px rgba(37,99,235,0.4);
-}
-
-/* ================= SUMMARY ================= */
-
-.summary-cards{
-display:flex;
-gap:20px;
-margin-bottom:40px;
-flex-wrap:wrap;
-}
-
-.summary-cards .card{
-text-align:center;
-background:linear-gradient(180deg,#1e293b,#111827);
-border:1px solid #334155;
-box-shadow:0 8px 25px rgba(0,0,0,0.35);
-}
-
-.summary-cards h2{
-color:#38bdf8;
-font-size:30px;
-}
-
-/* ================= CHARTS ================= */
-
-.charts{
-display:flex;
-gap:30px;
-flex-wrap:wrap;
-margin-top:20px;
-}
-
-.chart-box{
-flex:1;
-min-width:300px;
-background:#ffffff;
-padding:30px;
-border-radius:14px;
-border:1px solid #e5e7eb;
-height:420px;
-
-box-shadow:0 10px 25px rgba(0,0,0,0.12);
-transition:0.3s;
-}
-
-
-
-
-.chart-box:hover{
-transform:translateY(-4px);
-box-shadow:0 15px 40px rgba(0,0,0,0.5);
-}
-
-#report{
-margin-top:50px;
-padding:30px;
-background:#1e293b;
-border-radius:14px;
-border:1px solid #334155;
-}
-
-/* ================= FOOTER ================= */
-
-footer{
-background:#020617;
-text-align:center;
-padding:40px 0;
-color:#64748b;
-margin-top:60px;
-}
-
-/* ================= SCROLL REVEAL ================= */
-
-.reveal{
-opacity:0;
-transform:translateY(60px);
-transition:all 0.8s ease;
-}
-
-.reveal.active{
-opacity:1;
-transform:translateY(0);
-}
-
-</style>
-
-</head>
-
-<body>
-
-<div class="container">
-
-<nav>
-
-<div class="logo">Auditium</div>
-
-<ul>
-<li><a href="#features">Features</a></li>
-<li><a href="#why">Why Auditium</a></li>
-<li><a href="#audit">Run Audit</a></li>
-<li><a href="#about">About</a></li>
-</ul>
-
-</nav>
-
-<section class="hero">
-
-<canvas id="particles"></canvas>
-<div class="hero-glow"></div>
-
-<h1>Enterprise-Grade Website Audits Powered by AI</h1>
-
-<p>
-Instant compliance intelligence for performance, accessibility, security,
-governance and ISO controls.
-</p>
-
-<a href="#audit" class="btn">Run Free Audit</a>
-
-</section>
-
-<section id="features" class="reveal">
-
-<h2 style="text-align:center;">Core Capabilities</h2>
-
-<div class="grid">
-
-<div class="card">
-<h3>⚡ Performance Intelligence</h3>
-<p>Advanced performance and optimization analysis.</p>
-</div>
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Audimentium | AI Website Governance Platform</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+
+    /* ================= GLOBAL ================= */
+
+    /* ================= REPORT TOGGLE ================= */
+    .chart-box{
+    transition:all 0.25s ease;
+    }
+
+    .chart-box:hover{
+    transform:translateY(-4px);
+    box-shadow:
+    0 20px 40px rgba(0,0,0,0.12),
+    0 8px 18px rgba(0,0,0,0.08);
+    }
+
+    .chart-box{
+    transition:0.3s;
+    }
+
+    .chart-box:hover{
+    transform:translateY(-4px);
+    box-shadow:0 15px 35px rgba(0,0,0,0.18);
+    }
+    .chart-title{
+    font-size:18px;
+    font-weight:700;
+    margin-bottom:18px;
+    color:#0f172a;
+    letter-spacing:0.2px;
+    }
+    .chart-box canvas{
+    width:100% !important;
+    height:320px !important;
+    margin-top:5px;
+    }
+    .download-btn{
+    margin-top:10px;
+    margin-bottom:20px;
+    padding:10px 16px;
+    background:linear-gradient(90deg,#2563eb,#38bdf8);
+    border:none;
+    border-radius:8px;
+    color:white;
+    font-weight:600;
+    cursor:pointer;
+    }
+
+    .download-btn:hover{
+    opacity:0.9;
+    }
+
+    .scan-status{
+    margin-top:20px;
+    padding:20px;
+    background:#020617;
+    border:1px solid #334155;
+    border-radius:10px;
+    text-align:center;
+    }
+
+    .scan-text{
+    margin-bottom:10px;
+    color:#38bdf8;
+    font-weight:600;
+    }
+
+    .scan-bar{
+    width:100%;
+    height:8px;
+    background:#111827;
+    border-radius:10px;
+    overflow:hidden;
+    }
+
+    #scanProgress{
+    width:0%;
+    height:100%;
+    background:linear-gradient(90deg,#2563eb,#38bdf8);
+    transition:width 0.6s;
+    }
+
+
+    .summary-box{
+    margin-top:20px;
+    padding:20px;
+    background:#111827;
+    border:1px solid #334155;
+    border-radius:10px;
+    }
+
+    .findings-box{
+    margin-top:15px;
+    padding:20px;
+    background:#020617;
+    border:1px solid #334155;
+    border-radius:10px;
+    }
+
+
+    .report-toggle{
+    margin-top:15px;
+    padding:10px 16px;
+    display:inline-block;
+    background:#111827;
+    border:1px solid #334155;
+    border-radius:8px;
+    cursor:pointer;
+    transition:0.25s;
+    }
+
+
+    .report-toggle:hover{
+    background:#1e293b;
+    }
+
+    #fullReport{
+    margin-top:20px;
+    line-height:1.7;
+    }
+
+    .collapsed{
+    display:none;
+    }
+
+    *{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Inter',sans-serif;
+    }
+
+    body{
+    background:#0f172a;
+    color:#e2e8f0;
+    line-height:1.6;
+    }
+
+    .container{
+    width:90%;
+    max-width:1200px;
+    margin:auto;
+    }
+
+    section{
+    padding:90px 0;
+    }
+
+    h1,h2,h3{
+    margin-bottom:20px;
+    }
+
+    p{
+    color:#ffffff;
+    }
+
+    /* ================= NAVBAR ================= */
+
+    nav{
+    position:sticky;
+    top:0;
+    z-index:1000;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:20px 0;
+
+    background:rgba(15,23,42,0.75);
+    backdrop-filter:blur(10px);
+
+    border-bottom:1px solid #1e293b;
+    }
+
+    .logo{
+    font-weight:700;
+    font-size:30px;
+    color:#38bdf8;
+    letter-spacing:0.5px;
+    }
+
+    nav ul{
+    display:flex;
+    gap:28px;
+    }
+
+    nav ul li{
+    list-style:none;
+    }
+
+    nav ul li a{
+    color:#ffffff;
+    text-decoration:none;
+    font-weight:500;
+    position:relative;
+    transition:color 0.25s ease;
+    }
+
+    nav ul li a:hover{
+    color:#38bdf8;
+    }
+
+    nav ul li a:visited{
+    color:#ffffff;
+    }
+
+    nav ul li a:visited:hover{
+    color:#38bdf8;
+    }
+
+    nav ul li a::after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:-6px;
+    width:0%;
+    height:2px;
+    background:#38bdf8;
+    transition:width 0.3s ease;
+    }
+
+    nav ul li a:hover::after{
+    width:100%;
+    }
+
+    /* ================= HERO ================= */
+
+    .hero{
+    text-align:center;
+    padding-top:60px;
+    position:relative;
+    overflow:hidden;
+    }
+
+    /* PARTICLE CANVAS */
+
+    #particles{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index:0;
+    opacity:0.4;
+    }
+
+    /* GLOW BACKGROUND */
+
+    .hero-glow{
+    position:absolute;
+    top:-200px;
+    left:50%;
+    transform:translateX(-50%);
+    width:1000px;
+    height:700px;
+
+    background:radial-gradient(circle at center,
+    rgba(56,189,248,0.45),
+    rgba(37,99,235,0.35),
+    transparent 70%);
+
+    filter:blur(140px);
+
+    animation:heroGlowMove 12s ease-in-out infinite alternate;
+
+    z-index:0;
+    }
+
+    @keyframes heroGlowMove{
+
+    0%{
+    transform:translateX(-50%) translateY(0px) scale(1);
+    }
+
+    50%{
+    transform:translateX(-50%) translateY(40px) scale(1.05);
+    }
+
+    100%{
+    transform:translateX(-50%) translateY(-40px) scale(1.1);
+    }
+
+    }
+
+    /* HERO TEXT */
+
+    .hero h1{
+    font-size:48px;
+    font-weight:700;
+
+    background:linear-gradient(90deg,#ffffff,#38bdf8,#2563eb);
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color:transparent;
+
+    position:relative;
+    z-index:2;
+    }
+
+    .hero p{
+    max-width:650px;
+    margin:auto;
+    margin-bottom:30px;
+    position:relative;
+    z-index:2;
+    }
+
+    .btn{
+    background:linear-gradient(90deg,#2563eb,#38bdf8);
+    padding:14px 28px;
+    border-radius:8px;
+    color:white;
+    font-weight:600;
+    display:inline-block;
+    position:relative;
+    z-index:2;
+    }
+
+    .btn:hover{
+    opacity:0.9;
+    }
+
+    /* ================= FEATURES ================= */
+
+    .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:25px;
+    margin-top:40px;
+    }
+
+    .card{
+    background:#1e293b;
+    padding:25px;
+    border-radius:14px;
+    border:1px solid #334155;
+    transition:0.3s;
+    }
+
+    .card:hover{
+    transform:translateY(-6px);
+    }
+
+    .card h3{
+    color:#38bdf8;
+    margin-bottom:10px;
+    }
+
+    /* ================= AUDIT SECTION ================= */
+
+    .audit-section{
+    background:#020617;
+    padding:100px 0;
+    }
+
+    .audit-box{
+    background:#1e293b;
+    padding:40px;
+    border-radius:14px;
+    border:1px solid #334155;
+    margin-top:40px;
+    }
+
+    .form-section{
+    display:flex;
+    flex-wrap:wrap;
+    gap:15px;
+    justify-content:center;
+    margin-bottom:30px;
+    }
+
+    .form-section input{
+    padding:14px;
+    width:260px;
+    border-radius:8px;
+    border:1px solid #334155;
+    background:#0f172a;
+    color:white;
+    }
+
+    .form-section input::placeholder{
+    color:#64748b;
+    }
+
+    button{
+    padding:14px 28px;
+    border:none;
+    border-radius:8px;
+    background:linear-gradient(90deg,#487ff7,#38bdf8);
+    color:white;
+    font-weight:600;
+    cursor:pointer;
+    }
+
+    button:hover{
+    opacity:0.9;
+    }
+
+    /* ================= MODULES ================= */
+
+    .modules{
+    display:flex;
+    flex-wrap:wrap;
+    gap:16px;
+    justify-content:center;
+    margin-bottom:40px;
+    margin-top:20px;
+    }
+    .modules input{
+    display:none;
+    }
+
+    .pill{
+    padding:12px 22px;
+    border-radius:10px;
+
+    background:#ffffff;
+    color:#111827;
+
+    font-weight:700;
+
+    border:1px solid #fdfdff;
+
+    cursor:pointer;
+    transition:all 0.25s ease;
+
+    box-shadow:0 4px 10px rgba(0,0,0,0.08);
+    }
+
+    .pill:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 20px rgba(0,0,0,0.15);
+    }
+
+    .modules input:checked + .pill{
+    background:#2563eb;
+    color:white;
+    border-color:#2563eb;
+
+    box-shadow:0 6px 14px rgba(37,99,235,0.4);
+    }
+
+    /* ================= SUMMARY ================= */
+
+    .summary-cards{
+    display:flex;
+    gap:20px;
+    margin-bottom:40px;
+    flex-wrap:wrap;
+    }
+
+    .summary-cards .card{
+    text-align:center;
+    background:linear-gradient(180deg,#1e293b,#111827);
+    border:1px solid #334155;
+    box-shadow:0 8px 25px rgba(0,0,0,0.35);
+    }
+
+    .summary-cards h2{
+    color:#38bdf8;
+    font-size:30px;
+    }
+
+    /* ================= CHARTS ================= */
+
+    .charts{
+    display:flex;
+    gap:30px;
+    flex-wrap:wrap;
+    margin-top:20px;
+    }
+
+    .chart-box{
+    flex:1;
+    min-width:300px;
+    background:#ffffff;
+    padding:30px;
+    border-radius:14px;
+    border:1px solid #e5e7eb;
+    height:420px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,0.12);
+    transition:0.3s;
+    }
+
+
+
+
+    .chart-box:hover{
+    transform:translateY(-4px);
+    box-shadow:0 15px 40px rgba(0,0,0,0.5);
+    }
+
+    #report{
+    margin-top:50px;
+    padding:30px;
+    background:#1e293b;
+    border-radius:14px;
+    border:1px solid #334155;
+    }
+
+    /* ================= FOOTER ================= */
+
+    footer{
+    background:#020617;
+    text-align:center;
+    padding:40px 0;
+    color:#64748b;
+    margin-top:60px;
+    }
+
+    /* ================= SCROLL REVEAL ================= */
+
+    .reveal{
+    opacity:0;
+    transform:translateY(60px);
+    transition:all 0.8s ease;
+    }
+
+    .reveal.active{
+    opacity:1;
+    transform:translateY(0);
+    }
+
+    </style>
+
+    </head>
+
+    <body>
+
+    <div class="container">
+
+    <nav>
+
+    <div class="logo">Audimentium</div>
+
+    <ul>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#why">Why Audimentium</a></li>
+    <li><a href="#audit">Run Audit</a></li>
+    <li><a href="#about">About</a></li>
+    </ul>
+
+    </nav>
+
+    <section class="hero">
+
+    <canvas id="particles"></canvas>
+    <div class="hero-glow"></div>
+
+    <h1>Enterprise-Grade Website Audits Powered by AI</h1>
+
+    <p>
+    Instant compliance intelligence for performance, accessibility, security,
+    governance and ISO controls.
+    </p>
+
+    <a href="#audit" class="btn">Run Free Audit</a>
+
+    </section>
+
+    <section id="features" class="reveal">
+
+    <h2 style="text-align:center;">Core Capabilities</h2>
+
+    <div class="grid">
+
+    <div class="card">
+    <h3>⚡ Performance Intelligence</h3>
+    <p>Advanced performance and optimization analysis.</p>
+    </div>
 
-<div class="card">
-<h3>🔐 Security & Risk</h3>
-<p>Identify vulnerabilities and misconfigurations.</p>
-</div>
+    <div class="card">
+    <h3>🔐 Security & Risk</h3>
+    <p>Identify vulnerabilities and misconfigurations.</p>
+    </div>
 
-<div class="card">
-<h3>♿ Accessibility (WCAG)</h3>
-<p>Ensure inclusive and compliant digital access.</p>
-</div>
+    <div class="card">
+    <h3>♿ Accessibility (WCAG)</h3>
+    <p>Ensure inclusive and compliant digital access.</p>
+    </div>
 
-<div class="card">
-<h3>📋 Governance & ISO</h3>
-<p>Control mapping and compliance validation.</p>
-</div>
+    <div class="card">
+    <h3>📋 Governance & ISO</h3>
+    <p>Control mapping and compliance validation.</p>
+    </div>
 
-</div>
+    </div>
 
-</section>
+    </section>
 
-<section id="why" class="reveal">
+    <section id="why" class="reveal">
 
-<h2 style="text-align:center;">Why Choose Auditium?</h2>
+    <h2 style="text-align:center;">Why Choose Audimentium?</h2>
 
-<div class="grid">
+    <div class="grid">
 
-<div class="card">
-<h3>Automated AI Analysis</h3>
-<p>No manual auditing required.</p>
-</div>
+    <div class="card">
+    <h3>Automated AI Analysis</h3>
+    <p>No manual auditing required.</p>
+    </div>
 
-<div class="card">
-<h3>Enterprise Reporting</h3>
-<p>Structured dashboards & charts.</p>
-</div>
+    <div class="card">
+    <h3>Enterprise Reporting</h3>
+    <p>Structured dashboards & charts.</p>
+    </div>
 
-<div class="card">
-<h3>Modular Architecture</h3>
-<p>Select specific compliance modules.</p>
-</div>
+    <div class="card">
+    <h3>Modular Architecture</h3>
+    <p>Select specific compliance modules.</p>
+    </div>
 
-<div class="card">
-<h3>Actionable Insights</h3>
-<p>Clear improvement recommendations.</p>
-</div>
+    <div class="card">
+    <h3>Actionable Insights</h3>
+    <p>Clear improvement recommendations.</p>
+    </div>
 
-</div>
+    </div>
 
-</section>
+    </section>
 
-</div>
+    </div>
 
-<section id="audit" class="audit-section reveal">
+    <section id="audit" class="audit-section reveal">
 
-<div class="container">
+    <div class="container">
 
-<h2 style="text-align:center;">AI Compliance Dashboard</h2>
+    <h2 style="text-align:center;">AI Compliance Dashboard</h2>
 
-<div class="audit-box">
+    <div class="audit-box">
 
-<div id="scanStatus" class="scan-status collapsed">
+    <div id="scanStatus" class="scan-status collapsed">
 
-<div class="scan-text">Initializing Audit...</div>
+    <div class="scan-text">Initializing Audit...</div>
 
-<div class="scan-bar">
-<div id="scanProgress"></div>
-</div>
+    <div class="scan-bar">
+    <div id="scanProgress"></div>
+    </div>
 
-</div>
+    </div>
 
-<div class="form-section">
+    <div class="form-section">
 
-<input type="text" id="url" placeholder="Enter Website URL" />
+    <input type="text" id="url" placeholder="Enter Website URL" />
 
-<input type="email" id="email" placeholder="Enter Email for Report" />
+    <input type="email" id="email" placeholder="Enter Email for Report" />
 
-<button id="auditBtn" onclick="runAudit()">Run Audit</button>
+    <button id="auditBtn" onclick="runAudit()">Run Audit</button>
 
-</div>
+    </div>
 
-<h3 style="text-align:center;margin-bottom:20px;">Select Audit Modules</h3>
+    <h3 style="text-align:center;margin-bottom:20px;">Select Audit Modules</h3>
 
-<div class="modules">
+    <div class="modules">
 
-<input type="checkbox" id="accessibility" value="accessibility">
-<label for="accessibility" class="pill">🌐 Accessibility</label>
+    <input type="checkbox" id="accessibility" value="accessibility">
+    <label for="accessibility" class="pill">🌐 Accessibility</label>
 
-<input type="checkbox" id="security" value="security">
-<label for="security" class="pill">🔐 Security</label>
+    <input type="checkbox" id="security" value="security">
+    <label for="security" class="pill">🔐 Security</label>
 
-<input type="checkbox" id="privacy" value="privacy">
-<label for="privacy" class="pill">🔒 Privacy</label>
+    <input type="checkbox" id="privacy" value="privacy">
+    <label for="privacy" class="pill">🔒 Privacy</label>
 
-<input type="checkbox" id="governance" value="governance">
-<label for="governance" class="pill">📊 Governance</label>
+    <input type="checkbox" id="governance" value="governance">
+    <label for="governance" class="pill">📊 Governance</label>
 
-<input type="checkbox" id="performance" value="performance">
-<label for="performance" class="pill">⚡ Performance</label>
+    <input type="checkbox" id="performance" value="performance">
+    <label for="performance" class="pill">⚡ Performance</label>
 
-<input type="checkbox" id="iso27001" value="iso27001">
-<label for="iso27001" class="pill">🛡 ISO 27001</label>
+    <input type="checkbox" id="iso27001" value="iso27001">
+    <label for="iso27001" class="pill">🛡 ISO 27001</label>
 
-</div>
+    </div>
 
-<div class="summary-cards">
+    <div class="summary-cards">
 
-<div class="card">
-<span>Overall Score</span>
-<h2 id="overallScore">--%</h2>
-</div>
+    <div class="card">
+    <span>Overall Score</span>
+    <h2 id="overallScore">--%</h2>
+    </div>
 
-<div class="card">
-<span>Grade</span>
-<h2 id="grade">--</h2>
-</div>
+    <div class="card">
+    <span>Grade</span>
+    <h2 id="grade">--</h2>
+    </div>
 
-<div class="card">
-<span>Risk</span>
-<h2 id="risk">--</h2>
-</div>
+    <div class="card">
+    <span>Risk</span>
+    <h2 id="risk">--</h2>
+    </div>
 
-</div>
+    </div>
 
-<div class="charts">
+    <div class="charts">
 
-<div class="chart-box">
+    <div class="chart-box">
 
-<h3 class="chart-title">Module Compliance Scores</h3>
+    <h3 class="chart-title">Module Compliance Scores</h3>
 
-<canvas id="chart"></canvas>
+    <canvas id="chart"></canvas>
 
-</div>
+    </div>
 
-<div class="chart-box">
+    <div class="chart-box">
 
-<h3 class="chart-title">Overall Compliance Score</h3>
+    <h3 class="chart-title">Overall Compliance Score</h3>
 
-<canvas id="overallDonut"></canvas>
+    <canvas id="overallDonut"></canvas>
 
-</div>
+    </div>
 
-</div>
+    </div>
 
-<div id="report">
+    <div id="report">
 
-<h3>Audit Report</h3>
+    <h3>Audit Report</h3>
 
-<button class="download-btn" onclick="downloadPDF()">
-Download Full Report (PDF)
-</button>
+    <button class="download-btn" onclick="downloadPDF()">
+    Download Full Report (PDF)
+    </button>
 
-<div id="summaryBox"></div>
+    <div id="summaryBox"></div>
 
-<!-- Executive Summary (always visible) -->
-<div id="summaryBox" class="summary-box">
-Executive summary will appear here after the audit.
-</div>
+    <!-- Executive Summary (always visible) -->
+    <div id="summaryBox" class="summary-box">
+    Executive summary will appear here after the audit.
+    </div>
 
 
 
-<!-- Toggle Button -->
-<div class="report-toggle" onclick="toggleReport()">
-View Full Technical Report ▼
-</div>
+    <!-- Toggle Button -->
+    <div class="report-toggle" onclick="toggleReport()">
+    View Full Technical Report ▼
+    </div>
 
-<!-- Hidden Detailed Report -->
-<div id="fullReport" class="collapsed"></div>
+    <!-- Hidden Detailed Report -->
+    <div id="fullReport" class="collapsed"></div>
 
-</div>
+    </div>
 
 
 
-<div id="fullReport" class="collapsed">
-This is a test report.
-</div>
+    <div id="fullReport" class="collapsed">
+    This is a test report.
+    </div>
 
-<script>
+    <script>
 
-function toggleReport(){
+    function toggleReport(){
 
-const report = document.getElementById("fullReport");
-const toggle = document.querySelector(".report-toggle");
+    const report = document.getElementById("fullReport");
+    const toggle = document.querySelector(".report-toggle");
 
-if(report.classList.contains("collapsed")){
+    if(report.classList.contains("collapsed")){
+        report.classList.remove("collapsed");
+        toggle.innerHTML = "Hide Detailed Report ▲";
+    }else{
+        report.classList.add("collapsed");
+        toggle.innerHTML = "View Detailed Report ▼";
+    }
+
+    }
+
+    </script>
+
+
+    </section>
+
+    <div class="container">
+
+    <section id="about" class="reveal">
+
+    <h2 style="text-align:center;">About Audimentium</h2>
+
+    <p style="text-align:center;max-width:700px;margin:auto;">
+    Audimentium is an AI-driven web governance platform built to simplify enterprise-level
+    compliance, security validation and performance optimization through intelligent automation.
+    </p>
+
+    </section>
+
+    </div>
+
+    <footer>
+    © 2026 Audimentium. All rights reserved.
+    </footer>
+
+    <script>
+
+    /* PARTICLES */
+
+    const canvas = document.getElementById("particles");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = window.innerWidth;
+    canvas.height = 500;
+
+    let particles = [];
+
+    for(let i=0;i<60;i++){
+    particles.push({
+    x:Math.random()*canvas.width,
+    y:Math.random()*canvas.height,
+    size:Math.random()*2,
+    speed:Math.random()*0.5
+    });
+    }
+
+    function animateParticles(){
+
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    particles.forEach(p=>{
+
+    p.y -= p.speed;
+
+    if(p.y < 0){
+    p.y = canvas.height;
+    p.x = Math.random()*canvas.width;
+    }
+
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+    ctx.fillStyle="rgba(56,189,248,0.7)";
+    ctx.fill();
+
+    });
+
+    requestAnimationFrame(animateParticles);
+
+    }
+
+    animateParticles();
+
+    /* SCROLL REVEAL */
+
+    function revealOnScroll(){
+
+    const reveals=document.querySelectorAll(".reveal");
+
+    for(let i=0;i<reveals.length;i++){
+
+    const windowHeight=window.innerHeight;
+    const elementTop=reveals[i].getBoundingClientRect().top;
+    const visiblePoint=120;
+
+    if(elementTop < windowHeight-visiblePoint){
+    reveals[i].classList.add("active");
+    }
+
+    }
+
+    }
+
+    window.addEventListener("scroll",revealOnScroll);
+
+    </script>
+
+    <script>
+
+    function toggleReport(){
+
+    const report=document.getElementById("fullReport");
+
+    if(report.classList.contains("collapsed")){
     report.classList.remove("collapsed");
-    toggle.innerHTML = "Hide Detailed Report ▲";
-}else{
+    }else{
     report.classList.add("collapsed");
-    toggle.innerHTML = "View Detailed Report ▼";
-}
+    }
 
-}
+    }
 
-</script>
-
-
-</section>
-
-<div class="container">
-
-<section id="about" class="reveal">
-
-<h2 style="text-align:center;">About Auditium</h2>
-
-<p style="text-align:center;max-width:700px;margin:auto;">
-Auditium is an AI-driven web governance platform built to simplify enterprise-level
-compliance, security validation and performance optimization through intelligent automation.
-</p>
-
-</section>
-
-</div>
-
-<footer>
-© 2026 Auditium. All rights reserved.
-</footer>
-
-<script>
-
-/* PARTICLES */
-
-const canvas = document.getElementById("particles");
-const ctx = canvas.getContext("2d");
-
-canvas.width = window.innerWidth;
-canvas.height = 500;
-
-let particles = [];
-
-for(let i=0;i<60;i++){
-particles.push({
-x:Math.random()*canvas.width,
-y:Math.random()*canvas.height,
-size:Math.random()*2,
-speed:Math.random()*0.5
-});
-}
-
-function animateParticles(){
-
-ctx.clearRect(0,0,canvas.width,canvas.height);
-
-particles.forEach(p=>{
-
-p.y -= p.speed;
-
-if(p.y < 0){
-p.y = canvas.height;
-p.x = Math.random()*canvas.width;
-}
-
-ctx.beginPath();
-ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
-ctx.fillStyle="rgba(56,189,248,0.7)";
-ctx.fill();
-
-});
-
-requestAnimationFrame(animateParticles);
-
-}
-
-animateParticles();
-
-/* SCROLL REVEAL */
-
-function revealOnScroll(){
-
-const reveals=document.querySelectorAll(".reveal");
-
-for(let i=0;i<reveals.length;i++){
-
-const windowHeight=window.innerHeight;
-const elementTop=reveals[i].getBoundingClientRect().top;
-const visiblePoint=120;
-
-if(elementTop < windowHeight-visiblePoint){
-reveals[i].classList.add("active");
-}
-
-}
-
-}
-
-window.addEventListener("scroll",revealOnScroll);
-
-</script>
-
-<script>
-
-function toggleReport(){
-
-const report=document.getElementById("fullReport");
-
-if(report.classList.contains("collapsed")){
-report.classList.remove("collapsed");
-}else{
-report.classList.add("collapsed");
-}
-
-}
-
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-<script src="project.js"></script>
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="project.js"></script>
 
 
-<script>
+    <script>
 
-function toggleReport(){
+    function toggleReport(){
 
-const report = document.getElementById("fullReport");
-const toggle = document.querySelector(".report-toggle");
+    const report = document.getElementById("fullReport");
+    const toggle = document.querySelector(".report-toggle");
 
-if(report.classList.contains("collapsed")){
-    report.classList.remove("collapsed");
-    toggle.innerHTML = "Hide Full Technical Report ▲";
-}else{
-    report.classList.add("collapsed");
-    toggle.innerHTML = "View Full Technical Report ▼";
-}
+    if(report.classList.contains("collapsed")){
+        report.classList.remove("collapsed");
+        toggle.innerHTML = "Hide Full Technical Report ▲";
+    }else{
+        report.classList.add("collapsed");
+        toggle.innerHTML = "View Full Technical Report ▼";
+    }
 
-}
+    }
 
-</script>
-</body>
-</html>
+    </script>
+    </body>
+    </html>
