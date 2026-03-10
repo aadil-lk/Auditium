@@ -5,8 +5,6 @@ const email = document.getElementById("email").value;
 
     const modules = Array.from(document.querySelectorAll(".modules input:checked"))
         .map(cb => cb.value);
-const modules = Array.from(document.querySelectorAll(".modules input:checked"))
-.map(cb => cb.value);
 
     if (!url || modules.length === 0) {
         alert("Please enter URL and select at least one module.");
@@ -451,4 +449,5 @@ jsPDF: { unit: "in", format: "a4", orientation: "portrait" }
 html2pdf().set(opt).from(element).save();
 
 }
+
 
