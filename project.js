@@ -75,7 +75,7 @@ btn.disabled = false;
 }
 
 
-@@ -44,16 +59,17 @@ async function runAudit() {
+async function runAudit() {
 
 function renderDashboard(scores) {
 
@@ -449,5 +449,6 @@ jsPDF: { unit: "in", format: "a4", orientation: "portrait" }
 html2pdf().set(opt).from(element).save();
 
 }
+
 
 
