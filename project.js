@@ -15,8 +15,11 @@ return;
 startScanAnimation();
 
 const btn = document.getElementById("auditBtn");
+
+if(btn){
 btn.classList.add("loading");
 btn.disabled = true;
+}
 
 try {
 
@@ -32,23 +35,35 @@ const data = await response.json();
 finishScanAnimation();
 
 /* REPORT CONTENT */
+
+if(document.getElementById("summaryBox"))
 document.getElementById("summaryBox").innerHTML = data.short_summary;
+
+if(document.getElementById("fullReport"))
 document.getElementById("fullReport").innerHTML = data.full_report;
 
+if(document.getElementById("report"))
 document.getElementById("report").innerHTML = data.report;
 
 /* DASHBOARD */
+
+if(data.scores){
 renderDashboard(data.scores);
+}
 
 } catch (error) {
 
+if(document.getElementById("summaryBox")){
 document.getElementById("summaryBox").innerHTML =
 "<p style='color:#ef4444'>Something went wrong. Please try again.</p>";
+}
 
 }
 
+if(btn){
 btn.classList.remove("loading");
 btn.disabled = false;
+}
 
 }
 
@@ -60,8 +75,13 @@ const overall = calculateOverall(scores);
 const grade = getGrade(overall);
 const risk = getRisk(overall);
 
+if(document.getElementById("overallScore"))
 document.getElementById("overallScore").innerText = overall + "%";
+
+if(document.getElementById("grade"))
 document.getElementById("grade").innerText = grade;
+
+if(document.getElementById("risk"))
 document.getElementById("risk").innerText = risk;
 
 renderModuleChart(scores);
@@ -73,7 +93,10 @@ renderDonut(overall);
 
 function renderModuleChart(scores) {
 
-const ctx = document.getElementById("chart").getContext("2d");
+const chartEl = document.getElementById("chart");
+if(!chartEl) return;
+
+const ctx = chartEl.getContext("2d");
 
 if (window.moduleChart) {
 window.moduleChart.destroy();
@@ -124,7 +147,10 @@ legend: { display: false }
 
 function renderDonut(score) {
 
-const ctx = document.getElementById("overallDonut").getContext("2d");
+const donutEl = document.getElementById("overallDonut");
+if(!donutEl) return;
+
+const ctx = donutEl.getContext("2d");
 
 if (window.donutChart) {
 window.donutChart.destroy();
@@ -233,6 +259,8 @@ const status = document.getElementById("scanStatus");
 const text = document.querySelector(".scan-text");
 const progress = document.getElementById("scanProgress");
 
+if(!status || !text || !progress) return;
+
 status.classList.remove("collapsed");
 
 const steps = [
@@ -251,7 +279,6 @@ dotsInterval = setInterval(()=>{
 dots = dots.length < 3 ? dots + "." : "";
 text.innerText = steps[i] + dots;
 },400);
-
 
 scanInterval = setInterval(()=>{
 
@@ -274,6 +301,9 @@ function finishScanAnimation(){
 
 const text = document.querySelector(".scan-text");
 const progress = document.getElementById("scanProgress");
+const status = document.getElementById("scanStatus");
+
+if(!text || !progress || !status) return;
 
 clearInterval(scanInterval);
 clearInterval(dotsInterval);
@@ -282,7 +312,7 @@ progress.style.width = "100%";
 text.innerText = "Audit Complete ✓";
 
 setTimeout(()=>{
-document.getElementById("scanStatus").classList.add("collapsed");
+status.classList.add("collapsed");
 },1200);
 
 }
