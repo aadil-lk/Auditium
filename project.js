@@ -329,8 +329,8 @@ plugins: [centerTextPlugin]
 }
 
 
-@@ -182,20 +208,105 @@ function renderDonut(score) {
-========================= */
+function renderDonut(score) {
+
 
 function calculateOverall(scores) {
     const values = Object.values(scores);
@@ -446,6 +446,7 @@ jsPDF: { unit: "in", format: "a4", orientation: "portrait" }
 html2pdf().set(opt).from(element).save();
 
 }
+
 
 
 
