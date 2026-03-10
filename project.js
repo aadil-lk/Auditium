@@ -97,8 +97,7 @@ renderDonut(overall);
     renderDonut(overall);
 }
 
-
-@@ -63,117 +79,127 @@ function renderDashboard(scores) {
+function renderDashboard(scores) {
 
 function renderModuleChart(scores) {
 
@@ -446,6 +445,7 @@ jsPDF: { unit: "in", format: "a4", orientation: "portrait" }
 html2pdf().set(opt).from(element).save();
 
 }
+
 
 
 
