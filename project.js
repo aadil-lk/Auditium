@@ -79,9 +79,6 @@ async function runAudit() {
 
 function renderDashboard(scores) {
 
-    const overall = calculateOverall(scores);
-    const grade = getGrade(overall);
-    const risk = getRisk(overall);
 const overall = calculateOverall(scores);
 const grade = getGrade(overall);
 const risk = getRisk(overall);
@@ -449,6 +446,7 @@ jsPDF: { unit: "in", format: "a4", orientation: "portrait" }
 html2pdf().set(opt).from(element).save();
 
 }
+
 
 
 
