@@ -1,7 +1,5 @@
 async function runAudit() {
 
-    const url = document.getElementById("url").value;
-    const email = document.getElementById("email").value;
 const url = document.getElementById("url").value;
 const email = document.getElementById("email").value;
 
@@ -453,3 +451,4 @@ jsPDF: { unit: "in", format: "a4", orientation: "portrait" }
 html2pdf().set(opt).from(element).save();
 
 }
+
